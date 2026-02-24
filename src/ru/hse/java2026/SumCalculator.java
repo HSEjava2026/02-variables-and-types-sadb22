@@ -1,17 +1,30 @@
 package ru.hse.java2026;
-
 public class SumCalculator {
-    public static void main(String[] args){
+    public static void main(String[] args) {
+
         int sum = 0;
-        for (String arg: args){
-            String[] parts = arg.split(" ");
-            for (String part: parts){
-                if (!part.isEmpty()){
-                    sum += Integer.parseInt(part);
+        StringBuilder number = new StringBuilder();
+
+        for (String arg : args) {
+            for (int i = 0; i < arg.length(); i++) {
+                char c = arg.charAt(i);
+
+                if (Character.isDigit(c) || c == '-') {
+                    number.append(c);
+                } else {
+                    if (number.length() > 0) {
+                        sum += Integer.parseInt(number.toString());
+                        number.setLength(0);
+                    }
                 }
             }
 
+            if (number.length() > 0) {
+                sum += Integer.parseInt(number.toString());
+                number.setLength(0);
+            }
         }
+
         System.out.println(sum);
     }
 }

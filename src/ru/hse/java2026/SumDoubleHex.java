@@ -1,46 +1,17 @@
 package ru.hse.java2026;
-
 public class SumDoubleHex {
     public static void main(String[] args) {
 
-        long sum = 0;
-        StringBuilder number = new StringBuilder();
+        double sum = 0;
 
         for (String arg : args) {
-
-            for (int i = 0; i < arg.length(); i++) {
-
-                char c = arg.charAt(i);
-
-                if (Character.isDigit(c)) {
-
-                    number.append(c);
-
-                } else if (c == '-') {
-
-                    if (number.length() > 0) {
-                        sum += Long.parseLong(number.toString());
-                        number.setLength(0);
-                    }
-
-                    number.append(c);
-
-                } else {
-
-                    if (number.length() > 0) {
-                        sum += Long.parseLong(number.toString());
-                        number.setLength(0);
-                    }
-
-                }
-            }
-
-            if (number.length() > 0) {
-                sum += Long.parseLong(number.toString());
-                number.setLength(0);
-            }
+            sum += Double.parseDouble(arg);
         }
 
-        System.out.println(sum);
+        if (sum == (long) sum) {
+            System.out.println((long) sum);
+        } else {
+            System.out.println(sum);
+        }
     }
 }

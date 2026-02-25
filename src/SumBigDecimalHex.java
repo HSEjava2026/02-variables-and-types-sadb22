@@ -1,41 +1,62 @@
-package ru.hse.java2026;
-
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 public class SumBigDecimalHex {
-
     public static void main(String[] args) {
 
         BigDecimal sum = BigDecimal.ZERO;
 
         for (String arg : args) {
 
-            String[] tokens = arg.split("\\s+");
+            String[] parts = arg.split("\\p{javaWhitespace}+");
 
-            for (String token : tokens) {
+            for (String part : parts) {
 
-                if (token.isEmpty()) continue;
+                if (part.isEmpty()) {
+                    continue;
+                }
 
-                BigDecimal number;
+                String lowerPart = part.toLowerCase();
 
-                if (token.startsWith("0x") || token.startsWith("0X")) {
+                if (lowerPart.startsWith("0x") || lowerPart.startsWith("-0x") || lowerPart.startsWith("+0x")) {
 
-                    if (token.contains("p") || token.contains("P")) {
-                        // hex floating point
-                        number = BigDecimal.valueOf(Double.parseDouble(token));
+                    String hexPart = lowerPart.replace("0x", "");
+
+                    if (hexPart.startsWith("+")) {
+                        hexPart = hexPart.substring(1);
+                    }
+
+                    if (hexPart.contains("s")) {
+
+                        int sIndex = hexPart.indexOf('s');
+
+                        String mantissaStr = hexPart.substring(0, sIndex);
+                        String scaleStr = hexPart.substring(sIndex + 1);
+
+                        if (mantissaStr.startsWith("+")) {
+                            mantissaStr = mantissaStr.substring(1);
+                        }
+
+                        if (scaleStr.startsWith("+")) {
+                            scaleStr = scaleStr.substring(1);
+                        }
+
+                        BigInteger mantissa = new BigInteger(mantissaStr, 16);
+                        int scale = Integer.parseInt(scaleStr, 16);
+
+                        sum = sum.add(new BigDecimal(mantissa, scale));
+
                     } else {
-                        // hex integer
-                        number = BigDecimal.valueOf(
-                                Long.parseLong(token.substring(2), 16)
-                        );
+
+                        BigInteger mantissa = new BigInteger(hexPart, 16);
+                        sum = sum.add(new BigDecimal(mantissa));
                     }
 
                 } else {
-                    // decimal
-                    number = new BigDecimal(token);
-                }
 
-                sum = sum.add(number);
+                    sum = sum.add(new BigDecimal(part));
+
+                }
             }
         }
 

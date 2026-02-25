@@ -1,0 +1,15 @@
+/*package ru.hse.java2026;
+
+public class SumDoubleHex2 {
+    public static void main(String[] args){
+        String[] split = x.split("\\p{javaWhitespace}+");
+        for (String y : split){
+            if(!y.isEmpty()){
+                if (y.startswith("0x") || y.startswith("0X")){
+
+                }
+            }
+        }
+
+    }
+}*/
